@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-typedef struct __attribute__((packed))) {
+typedef struct {
 /* RIFF Header */
   uint32_t  ChunkID;
   uint32_t  ChunkSize;
@@ -22,6 +22,6 @@ typedef struct __attribute__((packed))) {
 /* DATA Chunk */
   uint32_t  SubChunk2ID;
   uint32_t  SubChunk2Size;
-} pcm_header;
+} __attribute__((packed)) pcm_header;
 
 #endif
