@@ -1,19 +1,39 @@
 #include <fstream>
+#include "Tone.h"
+#include <iostream>
+#include <vector>
 
-void write_tone(string filename, float frequency, float duration, int sampleRate);
+using std::cout;
+using std::endl;
+using std::ios;
+using std::ofstream;
 
-int main()
-{
+#define DEFAULT_SAMPLE_RATE 44100
+#define DEFAULT_BITS_PER_SAMPLE 16
 
-}
+int main(int argc, char **argv)
+{	
+	vector<string> args;
+	
+	for(int i = 0;i < argc;i++)
+		args.push_back(string(argv[i]));
+		
+	Tone *tone;
+	
+	if(args.size() == 5) {
+		tone = new Tone(atoi(args[3].c_str()), atoi(args[4].c_str()));
+	}
+	else if(args.size() == 4) {
+		tone = new Tone(atoi(args[3].c_str()));
+	}
+	else
+		tone = new Tone();
 
-void write_tone(string filename, float frequency, float duration, int sampleRate)
-{
-  int sampleCount = (int)(duration * (float)sampleRate);
-  
-  ofstream fout(filename, ios::out);
-  
-  // Wav files always start with this
-  fout << 0x56 << 0x49 << 0x46 << 0x46;
-  
+	if(args.size() >= 3 && tone->writeFile("test.wav", atof(args[1].c_str()), atof(args[2].c_str()))) {
+		cout << "Successfully created wav file" << endl;
+	}
+	else
+		cout << "Usage: " << args[0] << " pitch duration <sample rate> <bits per sample>" << endl;
+		
+	return 0;
 }
